@@ -33,7 +33,7 @@ function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R
 %       intermediateResults [STRUCT ARRAY]: intermediate results in
 %           position corresponding to #selected channels
 
-% Author: Simon Geirnaert, KU Leuven, ESAT & Dept. of Neurosciences
+% Authors: Jonathan Dan and Simon Geirnaert, KU Leuven, ESAT & Dept. of Neurosciences
 % Correspondence: simon.geirnaert@esat.kuleuven.be
 
 %% Check parameters
