@@ -159,22 +159,7 @@ else
             
             % iterative reweighting
             B = 1./(Wt+eps);
-%             y = zeros(size(Wt,1),1);
-%             for ik = 1:K
-%                 for jk = 1:K
-%                     for il = 1:nbVar
-%                         for jl = 1:nbVar
-%                             [V,D] = eig(W((ik-1)*nbGroups*nbVar+il:nbVar:(ik*nbGroups-1)*nbVar+il,(jk-1)*nbGroups*nbVar+jl:nbVar:(jk*nbGroups-1)*nbVar+jl));
-%                             [~,ip] = sort(diag(D),'descend');
-%                             y = y+abs(V(:,ip(1))).^2;
-%                         end
-%                     end
-%                 end
-%             end
-%             y = y./(K^2*nbVar^2);
-%             B = 1./(y*y'+eps);
-            
-            
+
             % bookkeeping
             Wtnew = Wt;            
             it = it+1;
