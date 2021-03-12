@@ -12,15 +12,17 @@ function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R
 %           covariance matrices belong to that group with ones at the
 %           corresponding positions.
 %       params [STRUCT]: parameter variable, with fields:
+%           lambdaI [DOUBLE]: initial value for the binary hyperparameter
+%                              search
 %           lambdaLB [DOUBLE]: lower bound for the binary hyperparameter
 %                               search
 %           lambdaUB [DOUBLE]: upper bound for the binary hyperparameter
 %                               search
-%           tol [DOUBLE]: tolerance to remove channels, relative to maximum
+%           relTol [DOUBLE]: tolerance to remove channels, relative to maximum
 %           nbIt [INTEGER]: number of reweighting iterations
-%           verbose [BOOLEAN]: display information or not
 %           maxIt [INTEGER]: maximimal number of iterations before 
 %               conclusion no solution is found
+%           verbose [BOOLEAN]: display information or not
 %
 %   Output parameters:
 %       groupSel [INTEGER]: the groups that are selected
@@ -33,6 +35,31 @@ function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R
 
 % Author: Simon Geirnaert, KU Leuven, ESAT & Dept. of Neurosciences
 % Correspondence: simon.geirnaert@esat.kuleuven.be
+
+%% Check parameters
+if nargin < 3
+    error('gsl1infSensorSelection :  R1, R2 and nbGroupToSel are required parameters')
+end
+% optional params
+if nargin < 6
+    params = struct
+    params.lambdaI = 10;
+    params.lambdaLB = 1e-5;
+    params.lambdaUB = 100;
+    params.relTol = 0.1;
+    params.nbIt = 15
+    params.maxIt = 20
+    params.verbose = false;
+end
+% optional groupSelector
+if nargin < 5
+    %If no group selector is provided assumes no groups
+    groupSelector = ones(length(R1));
+end
+% optional K
+if nargin < 4
+    K = 1;
+end
 
 %% parameter setting
 nbGroups = size(groupSelector,2);
