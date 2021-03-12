@@ -7,22 +7,25 @@ function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R
 %       R2 [DOUBLE]: the interference covariance matrix
 %       nbGroupToSel [INTEGER]: the number of groups to select
 %       K [INTEGER]: the number of output filters to take into account
+%                     (default = 1)
 %       groupSelector [BINARY]: a nbVariables.nbGroups x nbGroups binary
 %           matrix, indicating per group (column) which variables of the
 %           covariance matrices belong to that group with ones at the
 %           corresponding positions.
+%           (default = ones(length(R1)))
 %       params [STRUCT]: parameter variable, with fields:
 %           lambdaI [DOUBLE]: initial value for the binary hyperparameter
-%                              search
+%                              search (default = 10)
 %           lambdaLB [DOUBLE]: lower bound for the binary hyperparameter
-%                               search
+%                               search (default = 1e-5)
 %           lambdaUB [DOUBLE]: upper bound for the binary hyperparameter
-%                               search
+%                               search (default = 100)
 %           relTol [DOUBLE]: tolerance to remove channels, relative to maximum
-%           nbIt [INTEGER]: number of reweighting iterations
+%                             (default = 0.1)
+%           nbIt [INTEGER]: number of reweighting iterations (default = 15)
 %           maxIt [INTEGER]: maximimal number of iterations before 
-%               conclusion no solution is found
-%           verbose [BOOLEAN]: display information or not
+%               conclusion no solution is found (default = 20)
+%           verbose [BOOLEAN]: display information or not (default = false)
 %
 %   Output parameters:
 %       groupSel [INTEGER]: the groups that are selected
