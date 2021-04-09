@@ -1,5 +1,5 @@
 function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R1,R2,nbGroupToSel,K,groupSelector,params)
-% gsl1infSensorSelection Perform group-sparse L1,inf-norm-based sensor selection for the 
+% GSL1INFSENSORSELECTION Perform group-sparse L1,inf-norm-based sensor selection for the 
 % GEVD-problem of the matrix pencil (R1,R2).
 %
 %   Input parameters:
