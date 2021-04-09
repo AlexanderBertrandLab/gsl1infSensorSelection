@@ -1,5 +1,5 @@
 function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R1,R2,nbGroupToSel,K,groupSelector,params)
-% gsl1infSensorSelection Perform L1,inf-norm-based channel selection for the 
+% gsl1infSensorSelection Perform group-sparse L1,inf-norm-based sensor selection for the 
 % GEVD-problem of the matrix pencil (R1,R2).
 %
 %   Input parameters:
@@ -11,8 +11,7 @@ function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R
 %       groupSelector [BINARY]: a nbVariables.nbGroups x nbGroups binary
 %           matrix, indicating per group (column) which variables of the
 %           covariance matrices belong to that group with ones at the
-%           corresponding positions.
-%           (default = ones(length(R1)))
+%           corresponding positions (default = ones(length(R1)))
 %       params [STRUCT]: parameter variable, with fields:
 %           lambdaI [DOUBLE]: initial value for the binary hyperparameter
 %                              search (default = 10)
@@ -20,7 +19,7 @@ function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R
 %                               search (default = 1e-5)
 %           lambdaUB [DOUBLE]: upper bound for the binary hyperparameter
 %                               search (default = 100)
-%           relTol [DOUBLE]: tolerance to remove channels, relative to maximum
+%           relTol [DOUBLE]: tolerance to remove sensors, relative to maximum
 %                             (default = 0.1)
 %           nbIt [INTEGER]: number of reweighting iterations (default = 15)
 %           maxIt [INTEGER]: maximimal number of iterations before 
@@ -34,14 +33,14 @@ function [groupSel,objFun,lambda,intermediateResults] = gsl1infSensorSelection(R
 %       lambda [DOUBLE]: the hyperparameter at which the group selection
 %           was obtained
 %       intermediateResults [STRUCT ARRAY]: intermediate results in
-%           position corresponding to #selected channels
+%           position corresponding to #selected sensors
 
 % Authors: Jonathan Dan and Simon Geirnaert, KU Leuven, ESAT & Dept. of Neurosciences
 % Correspondence: simon.geirnaert@esat.kuleuven.be
 
 %% Check parameters
 if nargin < 3
-    error('gsl1infSensorSelection :  R1, R2 and nbGroupToSel are required parameters')
+    error('gsl1infSensorSelection :  R1, R2, and nbGroupToSel are required parameters')
 end
 % optional params
 if nargin < 6
@@ -72,7 +71,6 @@ if K > nbGroupToSel*nbVar
     K = nbGroupToSel*nbVar; % limit number of output filters to use by maximum usable
 end
 nk = n*K;
-% tolerance = 10*(2.22e-16)^(1/2);
 
 intermediateResults = repmat(struct('groupSel', nan, 'objFun', nan, 'lambda', nan), nbGroups, 1 );
 
@@ -109,7 +107,7 @@ q = trace(R2*V(:,ii)*V(:,ii)');
 % define tolerance
 tolerance = params.relTol*min(abs(diag(WtGt)));
 
-%% channel selection
+%% sensor selection
 if nbGroups == nbGroupToSel % if number of groups to select is equal to the total number of groups, solution known
     groupSel = 1:nbGroups;
     lambda = 0;
@@ -153,7 +151,6 @@ else
                                 for jl = 1:nbVar
                                     Atemp = abs(W((ik-1)*nbGroups*nbVar+il:nbVar:(ik*nbGroups-1)*nbVar+il,(jk-1)*nbGroups*nbVar+jl:nbVar:(jk*nbGroups-1)*nbVar+jl));
                                     Wt(tril(true(size(Wt)))) >= Atemp(tril(true(size(Atemp))));
-%                                     Wt >= abs(W((ik-1)*nbGroups*nbVar+il:nbVar:(ik*nbGroups-1)*nbVar+il,(jk-1)*nbGroups*nbVar+jl:nbVar:(jk*nbGroups-1)*nbVar+jl));
                                 end
                             end
                         end
@@ -185,7 +182,7 @@ else
         
 
         if params.verbose
-            fprintf('\n \t Iterating: %d channels selected with lambda %.2e \n',nbGroupSel,lambda);
+            fprintf('\n \t Iterating: %d sensors selected with lambda %.2e \n',nbGroupSel,lambda);
         end
         
         % hyperparameter update
