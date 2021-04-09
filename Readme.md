@@ -9,15 +9,15 @@ The software was developed with CVX version 2.2 using the MOSEK optimizer.
 
 ## Usage
 
-The software performs sensor selection in the context of GEVD problems where to classes `X1` and `X2` are discriminated.
+The software performs sensor selection in the context of GEVD problems were two classes `X1` and `X2` are discriminated.
 
-In its most basic usage and given the covariance matrices `R1 = cov(X1)` and `R2 = cov`, the software can be used the optimal subset of `nbGroupToSel` sensors:
+In its most basic usage and given the covariance matrices `R1 = cov(X1)` and `R2 = cov(X2)`, the software can be used the optimal subset of `nbGroupToSel` sensors:
 
 ```
 gsl1infSensorSelection(R1, R2, nbGroupToSel);
 ```
 
-The package allows to specify the desired number of eigenvector outputs though the argument `K`:
+The package allows to specify the desired number of eigenvector (filter) outputs though the argument `K`:
 
 ```
 gsl1infSensorSelection(R1, R2, nbGroupToSel, K);
