@@ -97,7 +97,7 @@ else
     [V,E] = eig(R2,R1);
 end
 [~,ii] = min(diag(E));
-V = V./diag(V'*R1*V)'; % make sure the eigenvector are correctly scaled
+V = V./diag(V'*R1*V)'; % make sure the eigenvectors are correctly scaled
 WtGt = maxBlockW(V(:,ii)*V(:,ii)',groupSelector);
 eps = 0.1*std(WtGt(:)); % standard rule: epsilon is 10% of standard deviation expected coeffs
 
