@@ -1,6 +1,6 @@
 # Group-sparse Sensor Selection for GEVD problems
 
-This repository contains a MATLAB implementation of the group-sparse sensor selection method for GEVD problems described in [TODO INSERT LINK TO PAPER].
+This repository contains a MATLAB implementation of the group-sparse sensor selection method for GEVD problems described in [[1]](https://arxiv.org/abs/2105.13667).
 
 ## Requirements
 This package requires [CVX](http://cvxr.com/cvx/).
@@ -30,3 +30,9 @@ gsl1infSensorSelection(R1, R2, nbGroupToSel, K, groupSelector );
 ```
 
 The search options for the problem are set with the `params` argument.
+
+
+--
+
+[1] J. Dan, S. Geirnaert, A. Bertrand, "Grouped Variable Selection for Generalized Eigenvalue Problems," 2021. arXiv:2105.13667 (https://arxiv.org/abs/2105.13667)
+
